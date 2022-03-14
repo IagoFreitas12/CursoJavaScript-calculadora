@@ -97,9 +97,11 @@ class CalcController{
 
             last = this._operation.pop();
 
+            this._lastNumber = this.getResult();
+
         }
         
-        let result = eval(this._operation.join(""));
+        let result = this.getResult();
 
         if(last == '%') {
 
@@ -140,8 +142,11 @@ class CalcController{
         let lastNumber;
 
         for (let i = this._operation.length-1; i >= 0; i--) {
-            lastNumber = this._operation[i];
-            break
+            
+            if(!this.isOperator(this._operation[i])) {
+                lastNumber = this._operation[i];
+                break
+            }
         }
 
         if (!lastNumber) lastNumber = 0;
@@ -190,7 +195,7 @@ class CalcController{
         
         console.log(this._operation);
 
-    }
+    };
 
     setError(){
 
