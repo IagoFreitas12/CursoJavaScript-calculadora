@@ -94,15 +94,14 @@ class CalcController{
         let last = '';
 
         if (this._operation.length > 3){
-            
+
             last = this._operation.pop();
-            this._lastNumber = this.getResult();
 
         }
         
-        let result = this.getResult();
+        let result = eval(this._operation.join(""));
 
-        if (last == '%'){
+        if(last == '%') {
 
             result /= 100;
 
@@ -119,13 +118,14 @@ class CalcController{
 
     };
 
+    /*
     getLastItem(isOperator = true){
 
         let lastItem;
 
         for (let i = this._operation.length-1; i >= 0; i--){
 
-            if(this.isOperator(this._operation[i]) == isOperator){
+            if(!this.isOperator(this._operation[i]) == isOperator){
                 lastItem = this._operation[i];
                 break;
             }
@@ -133,10 +133,16 @@ class CalcController{
         }
 
     }
+    */
 
     setLastNumberToDisplay(){
 
-        let lastNumber = this.getLastItem(false);
+        let lastNumber;
+
+        for (let i = this._operation.length-1; i >= 0; i--) {
+            lastNumber = this._operation[i];
+            break
+        }
 
         if (!lastNumber) lastNumber = 0;
 
@@ -215,8 +221,8 @@ class CalcController{
                 this.addOperation('/');
                 break; 
             case 'igual':
+
                 this.calc();
-                
                 break; 
             case 'porcento':
                 this.addOperation('%');
