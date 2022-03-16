@@ -93,17 +93,32 @@ class CalcController{
 
         let last = '';
 
-        if (this._operation.length > 3){
+        this._lastOperator = this.getLastItem();
 
+        if (this._operation.length < 3){
+
+            let firstItem = this._operation[0];
+            this._operation = [firstItem, this._lastOperator, this._lastNumber];
+            
+        }
+        
+        if (this._operation.length > 3) {
+            
             last = this._operation.pop();
-
             this._lastNumber = this.getResult();
 
+        } else if(this._operation.length == 3) {
+            console.log("Ta entrando aqui.")
+            this._lastNumber = this.getLastItem(false);
+
         }
+
+        console.log(this._lastOperator);
+        console.log(this._lastNumber);
         
         let result = this.getResult();
 
-        if(last == '%') {
+        if (last == '%') {
 
             result /= 100;
 
@@ -126,16 +141,19 @@ class CalcController{
         let lastItem;
 
         for (let i = this._operation.length-1; i >= 0; i--){
-            
-        
 
-                if(this.isOperator(this._operation[i]) == isOperator){
-                    lastItem = this._operation[i];
-                    break;
-                
-                } 
+            if(this.isOperator(this._operation[i]) == isOperator){
+                lastItem = this._operation[i];
+                break;
             
+            } 
   
+        }
+
+        if (!lastItem) {
+
+            lastItem = (isOperator) ? this._lastOperator : this._lastNumber;
+
         }
 
         return lastItem;
@@ -145,15 +163,7 @@ class CalcController{
 
     setLastNumberToDisplay(){
 
-        let lastNumber;
-
-        for (let i = this._operation.length-1; i >= 0; i--) {
-            
-            if(!this.isOperator(this._operation[i])) {
-                lastNumber = this._operation[i];
-                break
-            }
-        }
+        let lastNumber = this.getLastItem(false);
 
         if (!lastNumber) lastNumber = 0;
 
