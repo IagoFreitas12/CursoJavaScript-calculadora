@@ -42,6 +42,8 @@ class CalcController{
 
         this._operation = [];
         console.log('Tudo Apagado');
+        this.lastItem = '';
+        this.lastNumber = 0;
         this.setLastNumberToDisplay();
 
     };
@@ -99,18 +101,18 @@ class CalcController{
 
             let firstItem = this._operation[0];
             this._operation = [firstItem, this._lastOperator, this._lastNumber];
-            
+            console.log('Entrando no 1');
         }
         
         if (this._operation.length > 3) {
             
             last = this._operation.pop();
             this._lastNumber = this.getResult();
+            console.log('Entrando no 2');
 
         } else if(this._operation.length == 3) {
-            console.log("Ta entrando aqui.")
             this._lastNumber = this.getLastItem(false);
-
+            console.log('Entrando no 3');
         }
 
         console.log(this._lastOperator);
