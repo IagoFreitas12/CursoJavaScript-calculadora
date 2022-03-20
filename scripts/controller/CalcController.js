@@ -42,8 +42,9 @@ class CalcController{
 
         this._operation = [];
         console.log('Tudo Apagado');
-        this.lastItem = '';
-        this.lastNumber = 0;
+        this._lastItem = '';
+        this._lastNumber = '';
+        this.clearEntry;
         this.setLastNumberToDisplay();
 
     };
@@ -182,10 +183,6 @@ class CalcController{
                 //switch operator
                 this.setLastOperation(value);
 
-            } else if (isNaN(value)){
-                //Verifies the operator and print it on console
-                console.log('outra coisa', value);  
-
             } else {
                 
                 this.pushOperation(value);
@@ -198,12 +195,15 @@ class CalcController{
 
             if (this.isOperator(value)) {
 
-                this.pushOperation(value);                
+                this.pushOperation(value);    
+                
+                this.setLastNumberToDisplay();
+                console.log("ERA ISSO O TEMPO INTEIRO")
 
             } else {
                 //Number
                 let newValue = this.getLastOperation().toString() + value.toString();
-                this.setLastOperation(parseInt(newValue));
+                this.setLastOperation(parseFloat(newValue).toFixed(2));
 
                 this.setLastNumberToDisplay();
             }
@@ -220,6 +220,24 @@ class CalcController{
        this.displayCalc = "Error";
 
     };
+    
+    addDot() {
+
+        let lastOperation = this.getLastOperation();
+        
+        if (this.isOperator(lastOperation) || !lastOperation) {
+
+            this.pushOperation('0.');
+
+        } else {
+
+            this.setLastOperation(lastOperation.toString() + '.');
+
+        }
+        
+        this.setLastNumberToDisplay;
+
+    }
 
     execBtn(value){
 
@@ -244,14 +262,13 @@ class CalcController{
                 this.addOperation('/');
                 break; 
             case 'igual':
-
                 this.calc();
                 break; 
             case 'porcento':
                 this.addOperation('%');
                 break; 
             case 'ponto':
-
+                this.addDot('.');
                 break; 
             case '0': 
             case '1': 
