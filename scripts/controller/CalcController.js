@@ -14,7 +14,6 @@ class CalcController{
         this.initialize();
         this.initButtonsEvents();
         this.initKeyboard();
-
     }
 
     pasteFromClipboard(){
